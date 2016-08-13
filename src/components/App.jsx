@@ -1,10 +1,27 @@
 class App extends React.Component {
     
   constructor() {
-    super(window.exampleVideoData);
+    super();
     this.state = {
-      allVideos: window.exampleVideoData,
-      currentVideo: window.exampleVideoData[0]
+      allVideos: (function () {
+        searchYouTube({
+          query: 'cat',
+          key: 'AIzaSyDjJxLOZ6UBsNEhboMgixiBdr0zcZzxxWY',
+          max: 5
+        }, function(results) {
+          return results.items;
+        });
+      }),
+      currentVideo: (function () {
+        searchYouTube({
+          query: 'cat',
+          key: 'AIzaSyDjJxLOZ6UBsNEhboMgixiBdr0zcZzxxWY',
+          max: 5
+        }, function(results) {
+          return results.items[0];
+        });
+      })
+      
     };
   }
 
@@ -14,8 +31,8 @@ class App extends React.Component {
     });
   }
 
-
   render() {
+
     return (
       <div>
       <Nav />
