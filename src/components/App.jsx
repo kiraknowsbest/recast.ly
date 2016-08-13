@@ -1,28 +1,27 @@
 class App extends React.Component {
     
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.componentDidMount();
     this.state = {
-      allVideos: (function () {
-        searchYouTube({
-          query: 'cat',
-          key: 'AIzaSyDjJxLOZ6UBsNEhboMgixiBdr0zcZzxxWY',
-          max: 5
-        }, function(results) {
-          return results.items;
-        });
-      }),
-      currentVideo: (function () {
-        searchYouTube({
-          query: 'cat',
-          key: 'AIzaSyDjJxLOZ6UBsNEhboMgixiBdr0zcZzxxWY',
-          max: 5
-        }, function(results) {
-          return results.items[0];
-        });
-      })
-      
+      allVideos: window.exampleVideoData,
+      currentVideo: window.exampleVideoData[0]
     };
+  }
+
+  componentDidMount() {
+    this.props.live({
+      query: 'cat',
+      key: 'AIzaSyDjJxLOZ6UBsNEhboMgixiBdr0zcZzxxWY',
+      max: 5
+    }, this.stateSetting.bind(this));
+  }
+
+  stateSetting (result) {
+    this.setState({
+      allVideos: result,
+      currentVideo: result[0]
+    });
   }
 
   onClickVideoTitle(video) {
@@ -32,7 +31,6 @@ class App extends React.Component {
   }
 
   render() {
-
     return (
       <div>
       <Nav />

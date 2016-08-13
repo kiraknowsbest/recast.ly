@@ -6,10 +6,12 @@ var searchYouTube = (options, callback) => {
       part: 'snippet',
       key: options.key,
       q: options.query,
-      maxResults: options.max
+      maxResults: options.max,
+      type: 'video',
+      videoEmbeddable: true
     },
     success: function(data) {
-      callback(data);
+      callback(data.items);
     }
   });
    
