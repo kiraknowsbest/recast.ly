@@ -2,18 +2,17 @@ class App extends React.Component {
     
   constructor(props) {
     super(props);
-    this.componentDidMount();
     this.state = {
       allVideos: window.exampleVideoData,
       currentVideo: window.exampleVideoData[0]
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.live({
-      query: 'cat',
+      query: '',
       key: 'AIzaSyDjJxLOZ6UBsNEhboMgixiBdr0zcZzxxWY',
-      max: 5
+      max: 10
     }, this.stateSetting.bind(this));
   }
 
@@ -30,10 +29,30 @@ class App extends React.Component {
     });
   }
 
+
+  handleKeyDown(e, query) {
+    console.log('e: ', e);
+    console.log('query: ', query);
+    var ENTER = 13;
+    if ( e.keyCode === ENTER ) {
+      this.searchYouTube(query);
+    }
+
+  }
+
+
+  searchYouTube(query) {
+    this.props.live({
+      query: query,
+      key: 'AIzaSyDjJxLOZ6UBsNEhboMgixiBdr0zcZzxxWY',
+      max: 10
+    }, this.stateSetting.bind(this));
+  }
+
   render() {
     return (
       <div>
-      <Nav />
+      <Nav search={this.searchYouTube.bind(this)} keys={this.handleKeyDown.bind(this)} />
       <div className="col-md-7">
         <VideoPlayer video={this.state.currentVideo} />
       </div>
